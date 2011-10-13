@@ -20,7 +20,7 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.testsuite.integration.jpa.eclipselink;
+package org.jboss.as.test.integration.jpa.eclipselink;
 
 import javax.ejb.Stateful;
 import javax.persistence.PersistenceContext;

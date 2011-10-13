@@ -20,50 +20,33 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
 
-package org.jboss.as.testsuite.integration.jpa.eclipselink;
+package org.jboss.as.test.integration.jpa.eclipselink;
 
-import javax.persistence.Cacheable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.ejb.Stateful;
+import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
+import javax.persistence.PersistenceContext;
 
 /**
- * Cachable Employee entity class
+ * stateful session bean
  *
  * @author Scott Marlow
  */
-@Entity
-@Cacheable(true)
-public class Employee  {
+@Stateful
+public class SFSB1 {
+    @PersistenceContext(unitName = "mypc")
+        EntityManager em;
 
-    @Id
-    private int id;
-
-    private String name;
-
-    private String address;
-
-    public String getName() {
-        return name;
+    public void createEmployee(String name, String address, int id) {
+        Employee emp = new Employee();
+        emp.setId(id);
+        emp.setAddress(address);
+        emp.setName(name);
+        em.persist(emp);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Employee getEmployeeNoTX(int id) {
+        return em.find(Employee.class, id, LockModeType.NONE);
     }
 
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public int getId() {
-
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }
